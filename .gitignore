@@ -43,8 +43,5 @@ local.db-wal
 # Frontend files
 /frontend/dist
 
-# Turso files
-.turso
-
 # VSCode files
 /.vscode

@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// Represents a user entity
 type User struct {
 	ID        string    `json:"id"`
 	Email     string    `json:"email"`
@@ -13,6 +14,7 @@ type User struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
+// Represents the input for creating a new user
 func NewUser(email, name string) (*User, error) {
 
 	if email == "" {

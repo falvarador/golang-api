@@ -1,18 +1,18 @@
-# API made with Go, Hexagonal Architecture, Turso and ❤️
+# API made with Go, Hexagonal Architecture, PostgreSQL and ❤️
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
 - Go 1.20+
-- Turso account
+- PostgreSQL 14+
 
 ### Installation
 
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/turso/go-hexagonal-api-example.git
+git clone git@github.com:falvarador/golang-api.git
 ```
 
 2. Install dependencies:
@@ -24,9 +24,8 @@ go mod download
 3. Create a `.env` file in the root directory with the following content:
 
 ```bash
-TURSO_DATABASE_URL=http://127.0.0.1:8080
-TURSO_AUTH_TOKEN=your-auth-token
 APP_PORT=3000
+DB_CONNECTION_STRING="host=localhost port=5432 user=username password=secret_password dbname=database_name sslmode=disable"
 ENVIRONMENT=development
 ```
 

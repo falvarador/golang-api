@@ -1,37 +1,33 @@
 package platform
 
 import (
-	"Gin/internal/adapters/db/turso"
-	"Gin/internal/adapters/http"
-	"Gin/internal/core/services"
+	"Gin/internal/platform/middlewares"
+	"Gin/internal/platform/routes"
 	"database/sql"
 
 	"github.com/gin-gonic/gin"
 )
 
-// InitGinServer configures and returns an instance of Gin Engine.
+// InitGinServer configures and returns a Gin Engine instance.
 func InitGinServer(db *sql.DB) *gin.Engine {
+	// Initialize the hexagonal architecture components
+	container := SetupContainer(db)
 
-	// Initialize the architecture hexagonal
-	userRepository := turso.NewUserRepository(db)
-	userService := services.NewUserService(userRepository)
-	userHandler := http.NewUserHandler(userService)
+	app := gin.Default() // Gin with default logger and recovery middleware
 
-	// Initialize the Gin server with logger and recovery by default
-	r := gin.Default()
+	// Apply global middlewares
+	app.Use(middlewares.CORSMiddleware()) // Use your centralized CORS middleware here
 
-	// Configure routes
-	api := r.Group("/api")
+	// Setup API routes group
+	api := app.Group("/api")
 	{
-		users := api.Group("/users")
-		{
-			users.POST("/", userHandler.CreateUser)
-			users.GET("/:id", userHandler.GetUserByID)
-		}
+		// Register user routes using the new routes package
+		routes.UserRoutes(api, container.UserHandler)
+		routes.StoryRoutes(api, container.StoryHandler)
 	}
 
-	// Routes to serve the frontend of React/Astro (later)
-	// r.Static("/", "./frontend/dist")
+	// Routes to serve React/Astro frontend (later)
+	// r.Static("/", "./frontend/dist") // Example for React SPA
 
-	return r
+	return app
 }

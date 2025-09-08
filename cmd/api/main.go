@@ -17,11 +17,11 @@ func main() {
 		log.Printf("Warning: Error loading .env file (it might not exist if running in production directly): %v", env)
 	}
 
-	// Initialize Turso database
-	db, err := platform.InitTursoDB()
+	// Initialize database
+	db, err := platform.InitDB()
 
 	if err != nil {
-		log.Fatalf("Error initializing Turso DB: %v", err)
+		log.Fatalf("Error initializing the database: %v", err)
 	}
 
 	// Close the database connection when exiting the program
